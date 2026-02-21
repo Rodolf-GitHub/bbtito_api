@@ -8,3 +8,5 @@ class Producto(BaseModel):
     para_mujer = models.BooleanField(default=True)
     imagen = models.ImageField(upload_to='productos/', null=True, blank=True)
     en_oferta = models.BooleanField(default=False)
+    class Meta:
+        db_table = 'productos'
