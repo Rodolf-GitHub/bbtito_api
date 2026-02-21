@@ -9,7 +9,7 @@ from typing import List
 from core.utils.search_filter import search_filter
 from core.utils.compress_image import compress_image
 from core.utils.delete_image_file import delete_image_file
-from ninja import Response
+from ninja.responses import Response
 
 
 productos_router = Router(tags=["Productos"])
