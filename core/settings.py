@@ -134,6 +134,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://localhost:3000",
     "http://localhost:8000",
+    "https://bbtito.com",
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
