@@ -137,4 +137,3 @@ CORS_ALLOWED_ORIGINS = [
     "https://bbtito.com",
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True
