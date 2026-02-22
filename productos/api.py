@@ -3,6 +3,8 @@ from productos.models import Producto
 from productos.schemas import ProductoSchema, ProductoCreateSchema, ProductoUpdateSchema
 from usuarios.auth import AuthBearer
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
+from datetime import timedelta
 from ninja.pagination import paginate
 from ninja import File, UploadedFile
 from typing import List
@@ -19,7 +21,7 @@ productos_router = Router(tags=["Productos"])
 @search_filter(["nombre"])
 def list_productos(request, busqueda: str = None):
     """Endpoint para listar todos los productos, con soporte de búsqueda por nombre."""
-    productos = Producto.objects.all()
+    productos = Producto.objects.order_by("-updated_at")
     return productos
 
 @productos_router.get("/listar_ofertas", response=List[ProductoSchema])
@@ -27,7 +29,7 @@ def list_productos(request, busqueda: str = None):
 @search_filter(["nombre"])
 def list_productos_ofertas(request, busqueda: str = None):
     """Endpoint para listar todos los productos en oferta, con soporte de búsqueda por nombre."""
-    productos = Producto.objects.filter(en_oferta=True)
+    productos = Producto.objects.filter(en_oferta=True).order_by("-updated_at")
     return productos
 
 @productos_router.get("/listar_para_mujer", response=List[ProductoSchema])
@@ -35,7 +37,7 @@ def list_productos_ofertas(request, busqueda: str = None):
 @search_filter(["nombre"])
 def list_productos_para_mujer(request, busqueda: str = None):
     """Endpoint para listar todos los productos para mujer, con soporte de búsqueda por nombre."""
-    productos = Producto.objects.filter(para_mujer=True)
+    productos = Producto.objects.filter(para_mujer=True).order_by("-updated_at")
     return productos
 
 @productos_router.get("/listar_para_hombre", response=List[ProductoSchema])
@@ -43,7 +45,7 @@ def list_productos_para_mujer(request, busqueda: str = None):
 @search_filter(["nombre"])
 def list_productos_para_hombre(request, busqueda: str = None):
     """Endpoint para listar todos los productos para hombre, con soporte de búsqueda por nombre."""
-    productos = Producto.objects.filter(para_mujer=False)
+    productos = Producto.objects.filter(para_mujer=False).order_by("-updated_at")
     return productos
 
 @productos_router.get("/lo_mas_actualizado", response=List[ProductoSchema])
@@ -51,7 +53,8 @@ def list_productos_para_hombre(request, busqueda: str = None):
 @search_filter(["nombre"])
 def list_productos_lo_mas_actualizado(request, busqueda: str = None):
     """Endpoint para listar los productos más actualizados, con soporte de búsqueda por nombre."""
-    productos = Producto.objects.order_by("-updated_at")
+    limite = timezone.now() - timedelta(days=3)
+    productos = Producto.objects.filter(updated_at__gte=limite).order_by("-updated_at")
     return productos
 
 @productos_router.get("/lo_mas_barato", response=List[ProductoSchema])
