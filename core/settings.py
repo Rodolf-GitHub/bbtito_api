@@ -124,6 +124,14 @@ STATIC_URL = 'static/'
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+# Límites de subida de archivos: 50 MB por defecto
+# `DATA_UPLOAD_MAX_MEMORY_SIZE` controla el tamaño máximo total de los datos
+# en una petición que Django mantendrá en memoria. `None` = sin límite.
+DATA_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024  # 50 MB
+# `FILE_UPLOAD_MAX_MEMORY_SIZE` es el umbral en bytes para cargar archivos en memoria
+# (por encima se escriben a disco en archivos temporales).
+FILE_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024  # 50 MB
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
