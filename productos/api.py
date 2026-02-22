@@ -62,6 +62,12 @@ def list_productos_lo_mas_barato(request, busqueda: str = None):
     productos = Producto.objects.order_by("precio")
     return productos
 
+@productos_router.get("/obtener/{producto_id}", response=ProductoSchema)
+def get_producto(request, producto_id: int):
+    """Endpoint para obtener un producto por su ID."""
+    producto = get_object_or_404(Producto, id=producto_id)
+    return producto
+
 @productos_router.post("/crear", response=ProductoSchema, auth=AuthBearer())
 def create_producto(request, data: ProductoCreateSchema, imagen: File[UploadedFile] = None):
     """Endpoint para crear un nuevo producto. Requiere autenticación."""
