@@ -72,9 +72,9 @@ def get_producto(request, producto_id: int):
 def create_producto(request, data: ProductoCreateSchema, imagen: File[UploadedFile] = None):
     """Endpoint para crear un nuevo producto. Requiere autenticación."""
     try:
-        # Limitar el total de productos a 1000
-        if Producto.objects.count() >= 1000:
-            return Response({"success": False, "error": "Límite de 1000 productos alcanzado, contacte con el programador."}, status=400)
+        # Limitar el total de productos a 2000
+        if Producto.objects.count() >= 2000:
+            return Response({"success": False, "error": "Límite de 2000 productos alcanzado, contacte con el programador."}, status=400)
         producto = Producto.objects.create(**data.dict())
         if imagen:
             compressed_image = compress_image(imagen)
